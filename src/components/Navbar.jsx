@@ -3,7 +3,7 @@ import React from "react";
 const Navbar = () => {
   return (
     <div>
-      <nav className="navbar  text-bg-warning">
+      <nav className="navbar  text-bg-primary bg-gradient">
         <div className="container">
           <a className="navbar-brand " href="/">
             <i className="bi bi-newspaper "></i> NewsBox
