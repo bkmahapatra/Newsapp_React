@@ -3,9 +3,9 @@ import { Outlet,Link } from "react-router-dom";
 const NewsContainer = () => {
   
   return (
-    <div className="d-flex flex-row" >
-      <div >
-        <ul className="nav flex-column text-bg-warning" >
+    <div className="d-flex" style={{"marginTop":"70px"}}>
+      <div className="">
+        <ul className="nav flex-column text-bg-warning " style={{"height":"100vh"}}>
           <li className="nav-item">
             <Link className="nav-link active" aria-current="page" to={"/"}>
               General
@@ -44,7 +44,7 @@ const NewsContainer = () => {
         </ul>
       </div>
 
-      <div className="d-flex flex-wrap">
+      <div  className="">
         <Outlet />
       </div>
     </div>

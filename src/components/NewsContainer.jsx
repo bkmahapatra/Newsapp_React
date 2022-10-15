@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react";
-import NewsItem from "./NewsItem";
+import News from "./News";
+import Pagination from "./Pagination";
 
 const NewsContainer = (props) => {
   const [data, setData] = useState({});
   const [isLoading, setIsLoading] = useState(false);
+  const [postPerPage] = useState(10);
+  const [currentPage, setCurrentPage] = useState(1);
   // let data = {
   //   status: "ok",
   //   totalResults: 36,
@@ -343,84 +346,41 @@ const NewsContainer = (props) => {
 
   const fetchData = async () => {
     setIsLoading(true);
-    const url = `https://newsapi.org/v2/top-headlines?country=in&category=${props.category}&apiKey=b3e493cf037a447aac7fb76a6dc968ad`;
+    const url = `https://newsapi.org/v2/top-headlines?country=in&pageSize=${postPerPage}&page=${currentPage}&category=${props.category}&apiKey=b3e493cf037a447aac7fb76a6dc968ad`;
     const data1 = await fetch(url);
     const data2 = await data1.json();
     setData(() => ({ ...data2 }));
+
     setIsLoading(false);
-    console.log("fetch data");
+    console.log("fetch data totalres" + data2.totalResults);
   };
 
   useEffect(() => {
     console.log("useffect");
     fetchData();
-  }, [props]);
+  }, [props, currentPage]);
+
+  // let lastIndexPost= currentPage * postPerPage;
+  // let firstIndexPost= lastIndexPost-postPerPage;
+
+  const gotoPage = (item) => {
+    console.log("clickpaginate");
+    if (item === "prev") setCurrentPage(currentPage - 1);
+    else if (item === "next") setCurrentPage(currentPage + 1);
+    else setCurrentPage(item);
+  };
 
   return (
-    <div className="d-flex flex-wrap">
-      {console.log("render method")}
-      {isLoading ? (
-        <div className="text-center">
-          <div className="spinner-grow text-primary" role="status">
-            <span className="visually-hidden">Loading...</span>
-          </div>
-          <div className="spinner-grow text-secondary" role="status">
-            <span className="visually-hidden">Loading...</span>
-          </div>
-          <div className="spinner-grow text-success" role="status">
-            <span className="visually-hidden">Loading...</span>
-          </div>
-          <div className="spinner-grow text-danger" role="status">
-            <span className="visually-hidden">Loading...</span>
-          </div>
-          <div className="spinner-grow text-warning" role="status">
-            <span className="visually-hidden">Loading...</span>
-          </div>
-          <div className="spinner-grow text-info" role="status">
-            <span className="visually-hidden">Loading...</span>
-          </div>
-        </div>
-      ) : (
-        Object.keys(data).length > 0 && data.articles.map((item) => {
-          return (
-            <NewsItem
-              imgUrl={item.urlToImage}
-              title={item.title}
-              desc={item.description}
-              url={item.url}
-            />
-          );
-        })
-      )}
-      {/* { Object.keys(data).length > 0 && data.articles.map((item) => {
-          return (
-            <NewsItem
-              imgUrl={item.urlToImage}
-              title={item.title}
-              desc={item.description}
-              url={item.url}
-            />
-          );
-        })} */}
+    <div className="">
+      <News loading={isLoading} data={data} />
+      <Pagination
+        loading={isLoading}
+        totalPost={data.totalResults}
+        postPerPage={postPerPage}
+        paginate={gotoPage}
+      />
     </div>
   );
 };
 
 export default NewsContainer;
-
-// import React, { Component } from 'react'
-
-// export default class NewsContainer extends Component {
-//   constructor(){
-//     super();
-//     this.state={
-//       num:1
-//     }
-//   }
-
-//   render() {
-//     return (
-//       <div>NewsContainer</div>
-//     )
-//   }
-// }
