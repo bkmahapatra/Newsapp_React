@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Navbar from "./components/Navbar";
+
 import RootApp from "./RootApp";
 
 function App() {
@@ -7,7 +7,6 @@ function App() {
 
   return (
     <>
-      <Navbar />
       <RootApp />
     </>
   );

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import News from "./News";
 import Pagination from "./Pagination";
+import SearchBar from "./SearchBar";
 
 const NewsContainer = (props) => {
   const [data, setData] = useState({});
@@ -344,12 +345,12 @@ const NewsContainer = (props) => {
   //   ],
   // };
 
-  const fetchData = async () => {
+  const updateData = async () => {
     setIsLoading(true);
     const url = `https://newsapi.org/v2/top-headlines?country=in&pageSize=${postPerPage}&page=${currentPage}&category=${props.category}&apiKey=b3e493cf037a447aac7fb76a6dc968ad`;
     const data1 = await fetch(url);
     const data2 = await data1.json();
-    setData(() => ({ ...data2 }));
+    setData(() => ({title:"Top Headline", ...data2 }));
 
     setIsLoading(false);
     console.log("fetch data totalres" + data2.totalResults);
@@ -357,7 +358,7 @@ const NewsContainer = (props) => {
 
   useEffect(() => {
     console.log("useffect");
-    fetchData();
+    updateData();
   }, [props, currentPage]);
 
   // let lastIndexPost= currentPage * postPerPage;
@@ -370,8 +371,21 @@ const NewsContainer = (props) => {
     else setCurrentPage(item);
   };
 
+  const searchKey = (keywords) => {
+    const ser = async () => {
+      setIsLoading(true);
+      const url = `https://newsapi.org/v2/top-headlines?q=${keywords}&apiKey=b3e493cf037a447aac7fb76a6dc968ad`;
+      const data = await fetch(url);
+      const data2 = await data.json();
+      setData(() => ({title:`Search results for " ${keywords} "`, ...data2 }));
+      setIsLoading(false);
+    };
+    ser();
+  };
+
   return (
-    <div className="">
+    <div className="conatainer-fluid" style={{ marginLeft: "280px" }}>
+      <SearchBar searchKey={searchKey} />
       <News loading={isLoading} data={data} />
       <Pagination
         loading={isLoading}

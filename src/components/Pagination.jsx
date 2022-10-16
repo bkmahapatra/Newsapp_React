@@ -9,8 +9,8 @@ const Pagination = ({ loading, totalPost, postPerPage,paginate }) => {
 
   if (!loading) {
     return (
-      <nav aria-label="Page navigation example mt-3 ">
-        <ul className="pagination">
+      <nav aria-label="Page navigation example ">
+        <ul className="pagination d-flex justify-content-center my-4">
           <li className="page-item">
             <Link onClick={()=>paginate("prev")} className="btn btn-primary m-1" to="" aria-label="Previous">
               <span aria-hidden="true">&laquo;</span>
@@ -19,7 +19,7 @@ const Pagination = ({ loading, totalPost, postPerPage,paginate }) => {
           {totalPage.map((item) => {
             return (
               <li className="page-item">
-                <Link onClick={()=>paginate(item)} className="btn btn-primary m-1" href="#">
+                <Link onClick={()=>paginate(item)} className="btn btn-primary m-1" to="">
                   {item}
                 </Link>
               </li>
@@ -27,7 +27,7 @@ const Pagination = ({ loading, totalPost, postPerPage,paginate }) => {
           })}
 
           <li className="page-item">
-            <Link onClick={()=>paginate("next")} className="btn btn-primary m-1" href="#" aria-label="Next">
+            <Link onClick={()=>paginate("next")} className="btn btn-primary m-1" to="" aria-label="Next">
               <span aria-hidden="true">&raquo;</span>
             </Link>
           </li>
